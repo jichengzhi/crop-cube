@@ -92,9 +92,11 @@ def get_heatmap(sample_points):
 
 # Create a heatmap using seaborn
 def plot_heatmap(heatmap, cube_name='cube', save_path=None):
-    plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(10, 10))
+
+    ax = fig.add_subplot()
     sns.heatmap(heatmap, cmap='viridis', square=True, cbar_kws={"shrink": 0.8})
-    plt.title(f"{cube_name} Heatmap")
+    ax.set_title(f"{cube_name} Heatmap")
 
     if save_path is not None:
         plt.savefig(save_path, dpi=300)
