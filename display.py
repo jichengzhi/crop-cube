@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+from diff import get_closest_face, face_to_grid
 from rotate import rotate_z
 
 X, Y, Z = 0, 1, 2
@@ -47,5 +48,26 @@ def plot_3d(xyz, title='', s=0.00001):
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
     ax.set_title(title, fontsize=10, y=1.0)
+
+    plt.show()
+
+
+def plot_grid(xy):
+    fig, ax = plt.subplots()
+    ax.imshow(xy)
+    plt.show()
+
+
+def plot_grids(upper_cube, row=30, col=30):
+    fig, ax = plt.subplots(2, 2)
+
+    for i in range(4):
+        r = int(i // 2)
+        c = i % 2
+
+        xyz = rotate_z(upper_cube, i * 90)
+        face = get_closest_face(xyz)
+        grid = face_to_grid(face, row=row, col=col)
+        ax[r, c].imshow(grid)
 
     plt.show()
