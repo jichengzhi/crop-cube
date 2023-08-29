@@ -1,3 +1,6 @@
+*.STL
+*.stl
+
 .vscode/
 .idea/
 
