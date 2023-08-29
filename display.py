@@ -31,9 +31,10 @@ def plot_cube_around_z(xyz, s=0.00001):
     plt.show()
 
 
-def plot_3d(xyz, title='', s=0.00001):
+def plot_3d(xyz, title='', s=0.00001, path=None):
     """
     Plot coordinates in 3D.
+    :param path: if not None, image will be saved to this path
     :param xyz: a numpy array with shape (n, 3), whose elements are coordinates in format [x, y, z]
     :param title: title of the graph
     :param s: size of each point, see param s in doc of matplotlib.pyplot.scatter
@@ -49,12 +50,30 @@ def plot_3d(xyz, title='', s=0.00001):
     ax.set_zlabel('Z')
     ax.set_title(title, fontsize=10, y=1.0)
 
-    plt.show()
+    if path is not None:
+        plt.savefig(path)
+    else:
+        plt.show()
 
 
 def plot_grid(xy):
     fig, ax = plt.subplots()
     ax.imshow(xy)
+    plt.show()
+
+
+def plot_faces(upper_cube):
+    fig, ax = plt.subplots(2, 2)
+
+    for i in range(4):
+        r = int(i // 2)
+        c = i % 2
+
+        degree = i * 90
+
+        surface = get_closest_face(rotate_z(upper_cube, degree))
+        ax[r, c].scatter(surface[:, 0], surface[:, 1], s=0.001)
+
     plt.show()
 
 
