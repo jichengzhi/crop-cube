@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -34,9 +33,9 @@ if __name__ == '__main__':
 
         cube, sample_points = sample_from_raw_points(raw_data)
 
-        cube_img_path = os.path.join('./output', f'cube-{cube_name}.png')
-        surface_img_path = os.path.join('./output', f'surface-{cube_name}.png')
-        heatmap_img_path = os.path.join('./output', f'heatmap-{cube_name}.png')
+        cube_img_path = str(Path('output', f'cube-{cube_name}.png'))
+        surface_img_path = str(Path('output', f'surface-{cube_name}.png'))
+        heatmap_img_path = str(Path('output', f'heatmap-{cube_name}.png'))
 
         export_sample_in_2d(sample_points, cube_name, surface_img_path)
 
