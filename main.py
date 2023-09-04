@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 
@@ -22,9 +23,12 @@ def export_sample_in_2d(sample_points, cube_name, img_path: str):
 
 if __name__ == '__main__':
 
-    paths = ['Blue09.STL', 'Blue15.STL', 'Blue22.STL']
+    work_dir = Path('.')
+    stl_paths = list(work_dir.glob('**/*.STL'))
 
-    for stl_path in paths:
+    for stl_path in stl_paths:
+        print(f'working on stl file from {stl_path.absolute()}')
+
         raw_data = load_points_from_stl(stl_path)
         cube_name = cube_name_from_stl_path(stl_path)
 
