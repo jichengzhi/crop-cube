@@ -29,6 +29,7 @@ def plot_cube_around_z(xyz, s=0.00001):
 
     plt.subplots_adjust(hspace=0.5)
     plt.show()
+    plt.close()
 
 
 def plot_3d(xyz, title='', s=0.00001, path=None):
@@ -54,12 +55,15 @@ def plot_3d(xyz, title='', s=0.00001, path=None):
         plt.savefig(path)
     else:
         plt.show()
+    
+    plt.close()
 
 
 def plot_grid(xy):
     fig, ax = plt.subplots()
     ax.imshow(xy)
     plt.show()
+    plt.close()
 
 
 def plot_faces(upper_cube):
@@ -75,6 +79,7 @@ def plot_faces(upper_cube):
         ax[r, c].scatter(surface[:, 0], surface[:, 1], s=0.001)
 
     plt.show()
+    plt.close()
 
 
 def plot_grids(upper_cube, row=30, col=30):
@@ -90,3 +95,4 @@ def plot_grids(upper_cube, row=30, col=30):
         ax[r, c].imshow(grid)
 
     plt.show()
+    plt.close()

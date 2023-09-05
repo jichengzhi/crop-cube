@@ -102,3 +102,5 @@ def plot_heatmap(heatmap, cube_name='cube', save_path=None):
         plt.savefig(save_path, dpi=300)
     else:
         plt.show()
+
+    plt.close()
