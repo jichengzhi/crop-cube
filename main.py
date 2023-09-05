@@ -2,25 +2,12 @@ import os
 from pathlib import Path
 from typing import List
 
-import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 
 from cube_loader import cube_name_from_stl_path, load_points_from_stl
 from cube_sampler import sample_from_raw_points
-from display import plot_3d
-from heatmap import plot_heatmap, get_heatmap
-from rotate import rotate_x
-
-
-def export_sample_in_2d(sample_points, cube_name, img_path: str):
-    X, Y, Z = 0, 1, 2
-    surface = rotate_x(sample_points, -90)[:, [X, Z]]
-
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    ax.scatter(surface[:, 0], surface[:, 1], s=0.001)
-    ax.set_title(f'{cube_name} surface', fontsize=10, y=1.0)
-    plt.savefig(img_path)
+from display import plot_3d, export_sample_in_2d
+from heatmap import plot_heatmap, sample_to_heatmap
 
 
 def printer_dirs(sample_root: Path) -> List[Path]:
@@ -39,6 +26,11 @@ if __name__ == '__main__':
         stl_paths = list(printer_dir.glob('**/*.STL'))
 
         for stl_path in stl_paths:
+
+            if 'test' in stl_path.stem:
+                print(f'Skip test file {stl_path.absolute()}')
+                continue
+
             print(f'Processing {stl_path.absolute()}')
 
             raw_data = load_points_from_stl(stl_path)
@@ -57,5 +49,5 @@ if __name__ == '__main__':
 
             plot_3d(cube, title=f'cube from {stl_path}', path=cube_img_path, s=0.1)
 
-            heatmap = get_heatmap(sample_points)
-            plot_heatmap(heatmap, cube_name=cube_name, save_path=heatmap_img_path)
+            heatmap = sample_to_heatmap(sample_points)
+            plot_heatmap(heatmap, save_path=heatmap_img_path)

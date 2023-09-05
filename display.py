@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 from diff import get_closest_face, face_to_grid
-from rotate import rotate_z
+from rotate import rotate_z, rotate_x
 
 X, Y, Z = 0, 1, 2
 
@@ -55,7 +55,7 @@ def plot_3d(xyz, title='', s=0.00001, path=None):
         plt.savefig(path)
     else:
         plt.show()
-    
+
     plt.close()
 
 
@@ -96,3 +96,13 @@ def plot_grids(upper_cube, row=30, col=30):
 
     plt.show()
     plt.close()
+
+
+def export_sample_in_2d(sample_points, cube_name, img_path: str):
+    surface = rotate_x(sample_points, -90)[:, [X, Z]]
+
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    ax.scatter(surface[:, 0], surface[:, 1], s=0.001)
+    ax.set_title(f'{cube_name} surface', fontsize=10, y=1.0)
+    plt.savefig(img_path)
