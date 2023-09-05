@@ -23,23 +23,31 @@ def export_sample_in_2d(sample_points, cube_name, img_path: str):
 if __name__ == '__main__':
 
     work_dir = Path('.')
-    stl_paths = list(work_dir.glob('**/*.STL'))
+    # sample_dir_name = 'Printer3samples'
 
-    for stl_path in stl_paths:
-        print(f'working on stl file from {stl_path.absolute()}')
+    for sample_dir_name in ['Printer1samples', 'Printer5samples']:
 
-        raw_data = load_points_from_stl(stl_path)
-        cube_name = cube_name_from_stl_path(stl_path)
+        work_dir = Path('C:\Data', sample_dir_name)
+        stl_paths = list(work_dir.glob('**/*.STL'))
 
-        cube, sample_points = sample_from_raw_points(raw_data)
+        for stl_path in stl_paths:
+            print(f'working on stl file from {stl_path.absolute()}')
 
-        cube_img_path = str(Path('output', f'cube-{cube_name}.png'))
-        surface_img_path = str(Path('output', f'surface-{cube_name}.png'))
-        heatmap_img_path = str(Path('output', f'heatmap-{cube_name}.png'))
+            raw_data = load_points_from_stl(stl_path)
+            cube_name = cube_name_from_stl_path(stl_path)
 
-        export_sample_in_2d(sample_points, cube_name, surface_img_path)
+            cube, sample_points = sample_from_raw_points(raw_data)
 
-        plot_3d(cube, title=f'cube from {stl_path}', path=cube_img_path, s=0.1)
+            output_dir = Path(sample_dir_name)
+            output_dir.mkdir(parents=True, exist_ok=True)
 
-        heatmap = get_heatmap(sample_points)
-        plot_heatmap(heatmap, cube_name=cube_name, save_path=heatmap_img_path)
+            cube_img_path = str(Path(output_dir, f'cube-{cube_name}.png'))
+            surface_img_path = str(Path(output_dir, f'surface-{cube_name}.png'))
+            heatmap_img_path = str(Path(output_dir, f'heatmap-{cube_name}.png'))
+
+            export_sample_in_2d(sample_points, cube_name, surface_img_path)
+
+            plot_3d(cube, title=f'cube from {stl_path}', path=cube_img_path, s=0.1)
+
+            heatmap = get_heatmap(sample_points)
+            plot_heatmap(heatmap, cube_name=cube_name, save_path=heatmap_img_path)
