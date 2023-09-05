@@ -1,6 +1,9 @@
+import os
 from pathlib import Path
+from typing import List
 
 import matplotlib.pyplot as plt
+from dotenv import load_dotenv
 
 from cube_loader import cube_name_from_stl_path, load_points_from_stl
 from cube_sampler import sample_from_raw_points
@@ -20,25 +23,30 @@ def export_sample_in_2d(sample_points, cube_name, img_path: str):
     plt.savefig(img_path)
 
 
+def printer_dirs(sample_root: Path) -> List[Path]:
+    return [Path(sample_root, dir_name) for dir_name in os.getenv('PRINTER_FOLDERS').split(',')]
+
+
 if __name__ == '__main__':
 
-    work_dir = Path('.')
-    # sample_dir_name = 'Printer3samples'
+    load_dotenv('.env.local')
 
-    for sample_dir_name in ['Printer1samples', 'Printer5samples']:
+    sample_root = Path(os.getenv('SAMPLE_ROOT'))
+    output_root = Path(os.getenv('OUTPUT_ROOT'))
 
-        work_dir = Path('C:\Data', sample_dir_name)
-        stl_paths = list(work_dir.glob('**/*.STL'))
+    for printer_dir in printer_dirs(sample_root):
+
+        stl_paths = list(printer_dir.glob('**/*.STL'))
 
         for stl_path in stl_paths:
-            print(f'working on stl file from {stl_path.absolute()}')
+            print(f'Processing {stl_path.absolute()}')
 
             raw_data = load_points_from_stl(stl_path)
             cube_name = cube_name_from_stl_path(stl_path)
 
             cube, sample_points = sample_from_raw_points(raw_data)
 
-            output_dir = Path(sample_dir_name)
+            output_dir = Path(output_root, printer_dir.name)
             output_dir.mkdir(parents=True, exist_ok=True)
 
             cube_img_path = str(Path(output_dir, f'cube-{cube_name}.png'))
