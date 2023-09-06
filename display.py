@@ -41,8 +41,7 @@ def plot_3d(xyz, title='', s=0.00001, path=None):
     :param s: size of each point, see param s in doc of matplotlib.pyplot.scatter
     :return: None
     """
-    fig = plt.figure()
-    ax = fig.add_subplot(projection='3d')
+    ax = plt.subplot(projection='3d')
 
     ax.scatter(xyz[:, X], xyz[:, Y], xyz[:, Z], s=s)
 
