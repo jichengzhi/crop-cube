@@ -6,3 +6,4 @@ scipy
 scikit-learn
 opencv-python
 python-dotenv
+joblib
